@@ -1,10 +1,11 @@
 - hosts: all
   vars_files:
+    - vars/minecraft.yml
     - vars/gcp.yml
   roles:
     - common
     - java
     - minecraft
-    - backup-sh
+    - ope
 
 

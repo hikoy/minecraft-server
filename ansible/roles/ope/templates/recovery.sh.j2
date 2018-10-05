@@ -1,0 +1,8 @@
+#!/bin/bash
+export BOTO_CONFIG=/dev/null
+recovery=$(/snap/bin/gsutil ls -l gs://{{ bucket_name }} | tail -1)
+echo ${recovery}
+mv /opt/minecraft/world /opt/minecraft/world_org
+cd /opt/minecraft
+/snap/bin/gsutil -m cp -r ${recovery} .
+mv *-world world

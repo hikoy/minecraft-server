@@ -1,3 +1,4 @@
 secret/
 packer_cache
 output-virtualbox-iso/
+ansible/vars

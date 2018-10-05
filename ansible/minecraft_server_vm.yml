@@ -1,5 +1,6 @@
 - hosts: all
   vars_files:
+    - vars/minecraft.yml
     - vars/virtualbox.yml
   roles:
     - common

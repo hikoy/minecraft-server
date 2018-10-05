@@ -11,6 +11,16 @@
   cron:
     name: "backup world"
     user: minecraft
+    minute: 0
     hour: "*/4"
     job: /opt/minecraft/backup.sh
+  become: yes
+
+- name: install recovery script
+  template:
+    src: "recovery.sh.j2"
+    dest: "/opt/minecraft/recovery.sh"
+    owner: minecraft
+    group: minecraft
+    mode: '0755'
   become: yes

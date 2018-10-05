@@ -47,19 +47,7 @@
     owner: "minecraft"
     group: "minecraft"
   with_items:
-    - https://minecraft.curseforge.com/projects/journeymap/files/latest
-    - https://minecraft.curseforge.com/projects/jei/files/latest
-    - https://minecraft.curseforge.com/projects/iron-chests/files/latest
-    - https://minecraft.curseforge.com/projects/inventory-tweaks/files/latest
-    - https://minecraft.curseforge.com/projects/applied-energistics-2/files/latest
-    - https://minecraft.curseforge.com/projects/endercore/files/latest
-    - https://minecraft.curseforge.com/projects/ender-io/files/latest
-    - https://minecraft.curseforge.com/projects/industrial-craft/files/latest
-    - https://minecraft.curseforge.com/projects/opencomputers/files/latest
-    - https://minecraft.curseforge.com/projects/buildcraft/files/latest
-    - https://minecraft.curseforge.com/projects/additional-pipes-for-buildcraft/files/latest
-    - https://minecraft.curseforge.com/projects/ender-zoo/files/latest
-    - https://minecraft.curseforge.com/projects/lycanites-mobs/files/latest
+    - "{{ minecraft_mods }}"
   become: yes
 
 - name: create mods directory
