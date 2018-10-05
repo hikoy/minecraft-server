@@ -1,0 +1,102 @@
+{
+    "builders": [
+      {
+        "boot_command": [
+          "<esc><wait>",
+          "<esc><wait>",
+          "<enter><wait>",
+          "/install/vmlinuz<wait>",
+          " auto=true<wait>",
+          " locale=en_US.UTF-8",
+          " console-setup/charmap=UTF-8",
+          " console-setup/layoutcode=us<wait>",
+          " console-setup/ask_detect=false<wait>",
+          " pkgsel/language-pack-patterns=pkgsel/install-language-support=false",
+          " interface=enp0s3",
+          " hostname=localhost",
+          " domain=localdomain",
+          " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+          " vga=normal",
+          " initrd=/install/initrd.gz",
+          " quiet",
+          " -- <wait>",
+          "<enter><wait>"
+        ],
+        "boot_wait": "10s",
+        "disk_size": 20480,
+        "guest_additions_mode": "attach",
+        "guest_os_type": "Ubuntu_64",
+        "headless": true,
+        "http_directory": "builder",
+        "iso_checksum": "a5b0ea5918f850124f3d72ef4b85bda82f0fcd02ec721be19c1a6952791c8ee8",
+        "iso_checksum_type": "sha256",
+        "iso_url": "http://ftp.jaist.ac.jp/pub/Linux/ubuntu-cdimage/ubuntu/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
+        "keep_registered": true,
+        "shutdown_command": "echo '{{user `user_pass`}}' | sudo -S shutdown -P now",
+        "skip_export": true,
+        "ssh_username": "{{user `user_name`}}",
+        "ssh_password": "{{user `user_pass`}}",
+        "ssh_port": 22,
+        "ssh_wait_timeout": "10000s",
+        "type": "virtualbox-iso",
+        "vboxmanage": [
+          [
+            "hostonlyif",
+            "ipconfig",
+            "{{user `vm_hostonly_if`}}",
+            "--ip",
+            "{{user `gateway`}}",
+            "--netmask",
+            "255.255.255.0"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--memory",
+            "{{user `vm_memory`}}",
+            "--vram",
+            "128"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--cpus",
+            "{{user `vm_cpus`}}"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--nic1",
+            "nat",
+            "--natpf1",
+            "ssh,tcp,,2222,,22",
+            "--nictype1",
+            "82540EM"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--nic2",
+            "hostonly"
+          ],
+          [
+            "modifyvm",
+            "{{.Name}}",
+            "--hostonlyadapter2",
+            "{{user `vm_hostonly_if`}}"
+          ]
+        ],
+        "vm_name": "minecraft-server"
+      }
+    ],
+    "provisioners": [
+      {
+        "ansible_env_vars": [
+          "ANSIBLE_HOST_KEY_CHECKING=False",
+          "ANSIBLE_SSH_ARGS='-o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PreferredAuthentications=password'"
+        ],
+        "playbook_file": "ansible/minecraft_server_vm.yml",
+        "type": "ansible"
+      }
+    ]
+  }

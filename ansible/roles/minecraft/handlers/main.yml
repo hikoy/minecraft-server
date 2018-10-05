@@ -1,0 +1,14 @@
+- name: enable service
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - "minecraft.service"
+  become: true
+
+- name: restart Minecraft
+  service:
+    name: minecraft.service
+    state: restarted
+  become: true

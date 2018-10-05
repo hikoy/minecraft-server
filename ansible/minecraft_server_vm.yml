@@ -1,0 +1,8 @@
+- hosts: all
+  vars_files:
+    - vars/virtualbox.yml
+  roles:
+    - common
+    - netplan
+    - java
+    - minecraft

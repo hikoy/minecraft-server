@@ -1,0 +1,16 @@
+- name: install backup script
+  template:
+    src: "backup.sh.j2"
+    dest: "/opt/minecraft/backup.sh"
+    owner: minecraft
+    group: minecraft
+    mode: '0755'
+  become: yes
+
+- name: set backup cron
+  cron:
+    name: "backup world"
+    user: minecraft
+    hour: "*/4"
+    job: /opt/minecraft/backup.sh
+  become: yes

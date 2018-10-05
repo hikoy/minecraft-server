@@ -1,0 +1,14 @@
+- name: chenge static ip
+  template:
+    src: 01-netcfg.yaml
+    dest: /etc/netplan/01-netcfg.yaml
+    owner: root
+    group: root
+    mode: 0644
+  tags: netplan
+  become: yes
+
+- name: netplan apply
+  shell: netplan apply
+  tags: netplan
+  become: yes

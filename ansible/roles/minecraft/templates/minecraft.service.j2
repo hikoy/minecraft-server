@@ -1,0 +1,36 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/minecraft
+PrivateUsers=true
+User=minecraft
+Group=minecraft
+ProtectSystem=full
+ProtectHome=true
+StandardOutput=journal
+StandardError=journal
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+ExecStart=/bin/sh -c '/usr/bin/screen -DmS mc /usr/bin/java -server -Xms{{ minecraft_initial_memory }} -Xmx{{ minecraft_max_memory }} -jar minecraft_server.jar nogui'
+ExecStop=/usr/bin/screen -S mc -X stuff "say server will be shutdown in 30s\015"
+ExecStop=/bin/sleep 10
+ExecStop=/usr/bin/screen -S mc -X stuff "say server will be shutdown in 20s\015"
+ExecStop=/bin/sleep 10
+ExecStop=/usr/bin/screen -S mc -X stuff "say server will be shutdown in 10s\015"
+ExecStop=/bin/sleep 5
+ExecStop=/usr/bin/screen -S mc -X stuff "say server will be shutdown in 5s\015"
+ExecStop=/bin/sleep 5
+ExecStop=/usr/bin/screen -S mc -X stuff "save-all\015"
+ExecStop=/usr/bin/screen -S mc -X stuff "stop\015"
+Restart=always
+
+
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+- name: upgrade all packages to the latest version
+  apt:
+    upgrade: dist
+    update_cache: yes
+  tags: common
+  become: yes
+
+- name: install some packages
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python-pip
+      - language-pack-ja
+      - screen
+  become: yes
+  tags: common
+
+- name: change hostname
+  hostname:
+    name: minecraft-server
+  become: yes

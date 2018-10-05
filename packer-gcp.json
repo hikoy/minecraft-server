@@ -1,0 +1,33 @@
+{
+    "builders": [
+      {
+        "type": "googlecompute",
+        "project_id": "{{user `google_project_id`}}",
+        "image_name": "mc-server{{timestamp}}",
+        "instance_name": "mc-server",
+        "zone": "{{user `gce_zone_name`}}",
+        "address": "{{user `gce_network_name`}}",
+        "tags": "minecraft-server",
+        "source_image": "{{user `source_image_name`}}",
+        "machine_type": "{{user `machine_type`}}",
+        "ssh_username": "{{user `ssh_username`}}",
+        "image_description": "Minecraft Server",
+        "account_file": "{{user `google_account_file`}}"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "inline": [
+          "sudo apt -y update",
+          "sudo apt -y install ansible",
+          "sudo sed -i '/sftp-server$/s/$/ -e/' /etc/ssh/sshd_config",
+          "sudo systemctl restart sshd"
+        ]
+      },
+      {
+        "playbook_file": "ansible/minecraft_server_gcp.yml",
+        "type": "ansible"
+      }
+    ]
+  }

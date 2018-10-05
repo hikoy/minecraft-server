@@ -1,0 +1,5 @@
+#!/bin/bash
+export BOTO_CONFIG=/dev/null
+screen -r mc -X stuff '/save-all\n/save-off\n'
+/snap/bin/gsutil cp -R ${BASH_SOURCE%/*}/world gs://{{ bucket_name }}/$(date "+%Y%m%d-%H%M%S")-world
+screen -r mc -X stuff '/save-on\n'
