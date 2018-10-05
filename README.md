@@ -15,7 +15,7 @@ https://www.packer.io/docs/builders/googlecompute.html
 バージョンなどべた書きの部分もあるので使用する際は注意が必要です。
 
 # mod 設定
- [ここ]((/ansible/roles/minecraft/tasks/main.yml))のname: get modsを書き換える必要があります。
+ [ここ](ansible/roles/minecraft/tasks/main.yml)のname: get modsを書き換える必要があります。
 
 # VirtualBox(local))
 ## pakcer 設定
