@@ -14,9 +14,6 @@ https://www.packer.io/docs/builders/googlecompute.html
 # 注意
 バージョンなどべた書きの部分もあるので使用する際は注意が必要です。
 
-# mod 設定
- [ここ](ansible/roles/minecraft/tasks/main.yml)のname: get modsを書き換える必要があります。
-
 # VirtualBox(local))
 ## pakcer 設定
 ``` 
@@ -40,10 +37,6 @@ ansible_ssh_pass: {ssh用ユーザパスワード}
 ansible_sudo_pass: {ssh用ユーザパスワード}
 host_name: {ホストネーム}
 gateway: {ゲートウェイ}
-minecraft_version: "1.12.2"
-minecraft_user_pass: {minecraftユーザ用パスワード}
-minecraft_initial_memory: {minecraft起動時の初期メモリ}
-minecraft_max_memory: {minecraft起動時の最大メモリ}
 ```
 
 
@@ -65,15 +58,21 @@ minecraft_max_memory: {minecraft起動時の最大メモリ}
 ## ansible 設定
 ``` 
 (ansible/vars/gcp.yml)
-ansible_ssh_user: {sshユーザ名}
 host_name: {ホストネーム}
+bucket_name: {バックアップするバケット名　※バケットは作成しておくこと}
+```
+
+# Minecraft 設定
+```
+(ansible/vars/minecraft.yml)
 minecraft_version: "1.12.2"
 minecraft_user_pass: {minecraftユーザ用パスワード}
 minecraft_initial_memory: {minecraft起動時の初期メモリ}
 minecraft_max_memory: {minecraft起動時の最大メモリ}
-bucket_name: {バックアップするバケット名　※バケットは作成しておくこと}
-```
 
+minecraft_mods:
+  - {minecraft modファイルのURL}
+```
 # 使い方
 
 ## virtualboxイメージの作成
